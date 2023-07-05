@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentContainerView;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
@@ -19,6 +20,7 @@ import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.example.flashcard.dao.AppDatabase;
+import com.example.flashcard.dao.QuestionDao;
 import com.example.flashcard.dao.QuizAccountDao;
 import com.example.flashcard.dao.QuizDao;
 import com.example.flashcard.model.QuizAccount;
@@ -29,6 +31,7 @@ import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
     private QuizDao quizDao;
+    private QuestionDao questionDao;
     private Button btnTrangChu;
     private Button btnThuVien;
     private Button btnHoSo;
@@ -36,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private FragmentTrangChu fragmentTrangChu;
     private FragmentThuVien fragmentThuVien;
     private FragmentHoSo fragmentHoSo;
+    private FragmentDetailQuiz fragmentDetailQuiz;
     private ConstraintLayout cl;
     private QuizAccount quizAccount;
     private QuizAccountDao quizAccountDao;
@@ -94,6 +98,18 @@ public class MainActivity extends AppCompatActivity {
         quizAccount.setLastTimeJoin(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
         //add to history synctask
         new AddQuizToHistory().execute(quizAccountDao);
+        //replace fragment
+        if (fragmentDetailQuiz == null) {
+            fragmentDetailQuiz = new FragmentDetailQuiz();
+        }
+        fragmentDetailQuiz.setQuestionDao(questionDao);
+        fragmentDetailQuiz.setContext(this);
+        fragmentDetailQuiz.setQuizID(quizId);
+        //fragmentDetailQuiz.setOnBtnShowQuizClickListener(this::onBtnShowQuizClick);
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragmentContainerView, fragmentDetailQuiz)
+                .commit();
     }
 
 
@@ -117,10 +133,12 @@ public class MainActivity extends AppCompatActivity {
         fragmentContainerView=findViewById(R.id.fragmentContainerView);
         cl=findViewById(R.id.constraintLayout);
         quizAccount=new QuizAccount();
+
         //DAO
         AppDatabase db =AppDatabase.getInstance(this);
         quizDao=db.quizDao();
         quizAccountDao=db.quizAccountDao();
+        questionDao=db.questionDao();
         //them fragment trang chu luc mo activity
         if (fragmentTrangChu == null) {
             fragmentTrangChu = new FragmentTrangChu();
@@ -181,6 +199,7 @@ public class MainActivity extends AppCompatActivity {
         if(itemId==R.id.optAddNewQuiz){
             //Intent intentToCartActivity = new Intent(this,AddNewQuiz.class);
             //this.startActivity(intentToCartActivity);
+
         }
         if(itemId==R.id.optLogOut){
             /*AccountNow.thisAccount=null;

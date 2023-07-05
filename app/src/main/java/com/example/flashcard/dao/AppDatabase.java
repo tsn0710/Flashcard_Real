@@ -70,21 +70,21 @@ public abstract class AppDatabase extends RoomDatabase {
             String sql3 = "INSERT INTO answer(answerContent,questionID)\n" +
                     "VALUES\n" +
                     "('+',1),\n" +
-                    "('-',1),\n" +
-                    "('*',1),\n" +
-                    "('F',2),\n" +
-                    "('keyboard',3),\n" +
-                    "('monitor',3),\n" +
-                    "('query',4),\n" +
-                    "('ASC',4),\n" +
-                    "('Limit',4),\n" +
-                    "('Enterprise Java Beans',5),\n" +
-                    "('servlet',5),\n" +
-                    "('C# hoc ky 5',6),\n" +
-                    "('window form C#',6),\n" +
-                    "('windows presentation foundation',6),\n" +
-                    "('png',7),\n" +
-                    "('Game 2d',7);";
+                    "('-',2),\n" +
+                    "('*',3),\n" +
+                    "('F',4),\n" +
+                    "('keyboard',5),\n" +
+                    "('monitor',6),\n" +
+                    "('query',7),\n" +
+                    "('ASC',8),\n" +
+                    "('Limit',9),\n" +
+                    "('Enterprise Java Beans',10),\n" +
+                    "('servlet',11),\n" +
+                    "('C# hoc ky 5',12),\n" +
+                    "('window form C#',13),\n" +
+                    "('windows presentation foundation',14),\n" +
+                    "('png',15),\n" +
+                    "('Game 2d',16);";
             db.execSQL(sql3);
             String sql4 = "INSERT INTO quizAccount(accountID,quizID,lastTimeJoin)\n" +
                     "VALUES\n" +
