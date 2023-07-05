@@ -11,6 +11,8 @@ public class QuizDisplay {
         this.title = title;
         this.authorName = authorName;
     }
+    public QuizDisplay() {
+    }
 
     public int getQuizID() {
         return quizID;

@@ -35,5 +35,14 @@ public interface QuizDao {
     @Query("SELECT COUNT(*) FROM question GROUP BY quizID")
     public Cursor getNumberOfQuestion( );
     @Query("SELECT quizID,quizTitle, accountName FROM quiz,account WHERE quiz.accountID=account.accountID")
-   public Cursor getAllQuizDisplay();
+    public Cursor getAllQuizDisplay();
+    @Query("SELECT quiz.quizID,quizTitle FROM quiz,account,quizAccount WHERE quiz.quizID=quizAccount.quizID and account.accountID=quizAccount.accountID and quizAccount.accountID=1 Order by quizAccountID desc LIMIT 10")
+    public Cursor getTenQuizRecently();
+    @Query("SELECT COUNT(*),quizID FROM question where quizID in (:quizIDs) GROUP BY quizID")
+    public Cursor getNumberOfQuestion(List<Integer> quizIDs );
+
+    @Query("SELECT account.accountName,quizID FROM quiz,account where quiz.accountID=account.accountID and quizID in(:quizIDs)")
+    public Cursor getAuthorOfQuiz(List<Integer> quizIDs );
+    @Query("SELECT quizID,quizTitle, accountName FROM quiz,account WHERE quiz.accountID=account.accountID and quiz.accountID=1")
+    public Cursor getMyOwnQuiz();
 }

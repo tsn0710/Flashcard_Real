@@ -86,6 +86,22 @@ public abstract class AppDatabase extends RoomDatabase {
                     "('png',7),\n" +
                     "('Game 2d',7);";
             db.execSQL(sql3);
+            String sql4 = "INSERT INTO quizAccount(accountID,quizID,lastTimeJoin)\n" +
+                    "VALUES\n" +
+                    "(1,1,'2023-07-05 10:00:00'),\n" +
+                    "(1,4,'2023-07-05 11:00:00'),\n" +
+                    "(1,5,'2023-07-05 09:00:00'),\n" +
+                    "(1,7,'2023-07-04 09:00:00'),\n" +
+                    "(3,1,'2023-07-05 09:00:00'),\n" +
+                    "(3,2,'2023-07-05 08:00:00'),\n" +
+                    "(3,3,'2023-07-05 07:00:00'),\n" +
+                    "(3,4,'2023-07-05 05:00:00'),\n" +
+                    "(3,5,'2023-07-05 06:00:00'),\n" +
+                    "(3,6,'2023-07-05 02:00:00'),\n" +
+                    "(3,7,'2023-07-05 10:00:00'),\n" +
+                    "(3,4,'2023-07-05 06:00:00'),\n" +
+                    "(2,4,'2023-07-05 10:00:00');";
+            db.execSQL(sql4);
         }
         public void onOpen (SupportSQLiteDatabase db) {
             // do something every time database is open

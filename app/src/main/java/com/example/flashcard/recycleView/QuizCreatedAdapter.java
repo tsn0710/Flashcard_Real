@@ -18,16 +18,15 @@ import com.example.flashcard.model.QuizDisplay;
 import java.util.ArrayList;
 import java.util.List;
 
-public class QuizAllAdapter extends RecyclerView.Adapter<QuizViewHolder>{
+public class QuizCreatedAdapter extends RecyclerView.Adapter<QuizViewHolder>{
     private QuizDao quizDao;
     private List<QuizDisplay> listQuiz;
-    private List<QuizDisplay> listQuizReal;
     private Context context;
     private LayoutInflater inflater;
-    public QuizAllAdapter(QuizDao quizDao, Context context) {
+    public QuizCreatedAdapter(QuizDao quizDao, Context context) {
         //this.realQuizList=categoryList;
         this.quizDao = quizDao;
-        new LoadListQuiz().execute(quizDao);
+        new QuizCreatedAdapter.LoadListQuizCreated().execute(quizDao);
         this.context = context;
         this.inflater = LayoutInflater.from(context);
     }
@@ -56,25 +55,7 @@ public class QuizAllAdapter extends RecyclerView.Adapter<QuizViewHolder>{
     public int getItemCount() {
         return listQuiz.size();
     }
-
-    public void changeList(String query) {
-        List<QuizDisplay> result= new ArrayList<>() ;
-        for (QuizDisplay c:listQuiz) {
-            if(c.getTitle().contains(query)){
-                result.add(c);
-            }
-        }
-        //tong sy nhat: dep trai nhat lop SE1623
-        listQuiz=result;
-        this.notifyDataSetChanged();
-    }
-
-    public void resetList() {
-        listQuiz=listQuizReal;
-        this.notifyDataSetChanged();
-    }
-
-    private class LoadListQuiz extends AsyncTask<QuizDao, Integer, List<QuizDisplay>> {
+    private class LoadListQuizCreated extends AsyncTask<QuizDao, Integer, List<QuizDisplay>> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -84,8 +65,7 @@ public class QuizAllAdapter extends RecyclerView.Adapter<QuizViewHolder>{
         @Override
         protected List<QuizDisplay> doInBackground(QuizDao... quizDaos) {
             QuizDao quizDao1 = quizDaos[0];
-            Cursor c = quizDao1.getAllQuizDisplay();
-            Cursor n=quizDao1.getNumberOfQuestion();
+            Cursor c = quizDao1.getMyOwnQuiz();
             List<QuizDisplay> listQuiz2= new ArrayList<>();
             if (c.moveToFirst()) {
                 do {
@@ -96,13 +76,22 @@ public class QuizAllAdapter extends RecyclerView.Adapter<QuizViewHolder>{
                     listQuiz2.add(ca);
                 } while (c.moveToNext());
             }
-            int i=0;
+            List<Integer> listQuizID=new ArrayList<>();
+            for(QuizDisplay qd: listQuiz2){
+                listQuizID.add(qd.getQuizID());
+            }
+            Cursor n=quizDao1.getNumberOfQuestion(listQuizID);
+
             if (n.moveToFirst()) {
                 do {
 
                     @SuppressLint("Range") int number = n.getInt(0);
-                    listQuiz2.get(i).setNumberOfQuestion(number);
-                    i++;
+                    @SuppressLint("Range") int quizID = n.getInt(1);
+                    for(QuizDisplay qd: listQuiz2){
+                        if(qd.getQuizID()==quizID){
+                            qd.setNumberOfQuestion(number);
+                        }
+                    }
                 } while (n.moveToNext());
             }
             return listQuiz2;
@@ -112,8 +101,7 @@ public class QuizAllAdapter extends RecyclerView.Adapter<QuizViewHolder>{
         protected void onPostExecute(List<QuizDisplay> quizzes) {
             super.onPostExecute(quizzes);
             listQuiz=quizzes;
-            listQuizReal=quizzes;
-            QuizAllAdapter.this.notifyDataSetChanged();
+            QuizCreatedAdapter.this.notifyDataSetChanged();
         }
     }
 }

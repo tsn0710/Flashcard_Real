@@ -20,6 +20,9 @@ import android.widget.Spinner;
 import com.example.flashcard.dao.QuizDao;
 import com.example.flashcard.model.Quiz;
 import com.example.flashcard.recycleView.QuizAllAdapter;
+import com.example.flashcard.recycleView.QuizCreatedAdapter;
+import com.example.flashcard.recycleView.QuizRecentAdapter;
+import com.example.flashcard.recycleView.QuizViewHolder;
 
 import java.util.List;
 
@@ -27,7 +30,7 @@ public class FragmentThuVien extends Fragment {
     private QuizDao quizDao;
     private Spinner dropdown;
     private List<Quiz> quizList;
-    private QuizAllAdapter adapter;
+    public QuizAllAdapter adapter;
     private RecyclerView recyclerView;
     private Context context;
     @Override
@@ -45,9 +48,9 @@ public class FragmentThuVien extends Fragment {
         this.context=context;
     }
     private void initRecyclerView() {
-        adapter=new QuizAllAdapter(quizDao, context);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        //adapter=new QuizAllAdapter(quizDao, context);
+        //recyclerView.setAdapter(adapter);
+        //recyclerView.setLayoutManager(new LinearLayoutManager(context));
     }
 
     private void realCategoryList() {
@@ -66,7 +69,18 @@ public class FragmentThuVien extends Fragment {
         dropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Log.v("item", (String) parent.getItemAtPosition(position));
+                if(((String) parent.getItemAtPosition(position)).equals("Đã tạo")){
+                    QuizCreatedAdapter quizCreatedAdapter = new QuizCreatedAdapter(quizDao,context);
+                    recyclerView.setAdapter(quizCreatedAdapter);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(context));
+                    quizCreatedAdapter.setOnBtnShowQuizClickListener(callback);
+                }
+                if(((String) parent.getItemAtPosition(position)).equals("Đã học gần đây")){
+                    QuizRecentAdapter quizRecentAdapter = new QuizRecentAdapter(quizDao,context);
+                    recyclerView.setAdapter(quizRecentAdapter);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(context));
+                    quizRecentAdapter.setOnBtnShowQuizClickListener(callback);
+                }
             }
 
             @Override
@@ -75,6 +89,10 @@ public class FragmentThuVien extends Fragment {
             }
         });
         //
+    }
+    private QuizViewHolder.OnBtnShowQuizClick callback;
+    public void setOnBtnShowQuizClickListener(QuizViewHolder.OnBtnShowQuizClick callback) {
+        this.callback = callback;
     }
 
     @Override

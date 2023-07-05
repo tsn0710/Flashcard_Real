@@ -1,6 +1,7 @@
 package com.example.flashcard;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -15,9 +16,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import com.example.flashcard.dao.QuizDao;
 import com.example.flashcard.recycleView.QuizAllAdapter;
+import com.example.flashcard.recycleView.QuizViewHolder;
 
 public class FragmentTrangChu extends Fragment {
     private QuizDao quizDao;
@@ -42,6 +45,7 @@ public class FragmentTrangChu extends Fragment {
     }
     private void initRecyclerView() {
         adapter=new QuizAllAdapter(quizDao, context);
+        adapter.setOnBtnShowQuizClickListener(callback);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
     }
@@ -61,5 +65,17 @@ public class FragmentTrangChu extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_trang_chu, container, false);
+    }
+
+    public void changeAdapter(String query) {
+        adapter.changeList(query);
+    }
+
+    public void resetAdapter() {
+        adapter.resetList();
+    }
+    private QuizViewHolder.OnBtnShowQuizClick callback;
+    public void setOnBtnShowQuizClickListener(QuizViewHolder.OnBtnShowQuizClick callback) {
+        this.callback = callback;
     }
 }

@@ -6,8 +6,12 @@ import androidx.room.PrimaryKey;
 
 import org.jetbrains.annotations.NotNull;
 
-@Entity(tableName= "quizAccount",primaryKeys = {"accountID","quizID"})
+@Entity(tableName= "quizAccount")
 public class QuizAccount {
+    @PrimaryKey(autoGenerate = true)
+    @NotNull
+    @ColumnInfo(name = "quizAccountID")
+    private int quizAccountID;
     @NotNull
     @ColumnInfo(name = "accountID")
     private int accountID;
@@ -22,6 +26,18 @@ public class QuizAccount {
         this.accountID = accountID;
         this.quizID = quizID;
         this.lastTimeJoin = lastTimeJoin;
+    }
+
+    public QuizAccount() {
+
+    }
+
+    public int getQuizAccountID() {
+        return quizAccountID;
+    }
+
+    public void setQuizAccountID(int quizAccountID) {
+        this.quizAccountID = quizAccountID;
     }
 
     public int getAccountID() {

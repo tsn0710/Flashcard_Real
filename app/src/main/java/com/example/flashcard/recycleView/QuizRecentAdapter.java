@@ -18,16 +18,15 @@ import com.example.flashcard.model.QuizDisplay;
 import java.util.ArrayList;
 import java.util.List;
 
-public class QuizAllAdapter extends RecyclerView.Adapter<QuizViewHolder>{
+public class QuizRecentAdapter extends RecyclerView.Adapter<QuizViewHolder>{
     private QuizDao quizDao;
     private List<QuizDisplay> listQuiz;
-    private List<QuizDisplay> listQuizReal;
     private Context context;
     private LayoutInflater inflater;
-    public QuizAllAdapter(QuizDao quizDao, Context context) {
+    public QuizRecentAdapter(QuizDao quizDao, Context context) {
         //this.realQuizList=categoryList;
         this.quizDao = quizDao;
-        new LoadListQuiz().execute(quizDao);
+        new QuizRecentAdapter.LoadListQuizRecently().execute(quizDao);
         this.context = context;
         this.inflater = LayoutInflater.from(context);
     }
@@ -56,25 +55,7 @@ public class QuizAllAdapter extends RecyclerView.Adapter<QuizViewHolder>{
     public int getItemCount() {
         return listQuiz.size();
     }
-
-    public void changeList(String query) {
-        List<QuizDisplay> result= new ArrayList<>() ;
-        for (QuizDisplay c:listQuiz) {
-            if(c.getTitle().contains(query)){
-                result.add(c);
-            }
-        }
-        //tong sy nhat: dep trai nhat lop SE1623
-        listQuiz=result;
-        this.notifyDataSetChanged();
-    }
-
-    public void resetList() {
-        listQuiz=listQuizReal;
-        this.notifyDataSetChanged();
-    }
-
-    private class LoadListQuiz extends AsyncTask<QuizDao, Integer, List<QuizDisplay>> {
+    private class LoadListQuizRecently extends AsyncTask<QuizDao, Integer, List<QuizDisplay>> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -84,26 +65,48 @@ public class QuizAllAdapter extends RecyclerView.Adapter<QuizViewHolder>{
         @Override
         protected List<QuizDisplay> doInBackground(QuizDao... quizDaos) {
             QuizDao quizDao1 = quizDaos[0];
-            Cursor c = quizDao1.getAllQuizDisplay();
-            Cursor n=quizDao1.getNumberOfQuestion();
+            Cursor c = quizDao1.getTenQuizRecently();
             List<QuizDisplay> listQuiz2= new ArrayList<>();
             if (c.moveToFirst()) {
                 do {
                     @SuppressLint("Range") int quizID = c.getInt(c.getColumnIndex("quizID"));
                     @SuppressLint("Range") String title = c.getString(c.getColumnIndex("quizTitle"));
-                    @SuppressLint("Range") String authorName = c.getString(c.getColumnIndex("accountName"));
-                    QuizDisplay ca = new QuizDisplay(quizID,title,authorName);
+                    QuizDisplay ca = new QuizDisplay();
+                    ca.setQuizID(quizID);
+                    ca.setTitle(title);
                     listQuiz2.add(ca);
                 } while (c.moveToNext());
             }
-            int i=0;
+            List<Integer> listQuizID=new ArrayList<>();
+            for(QuizDisplay qd: listQuiz2){
+                listQuizID.add(qd.getQuizID());
+            }
+            Cursor n=quizDao1.getNumberOfQuestion(listQuizID);
+
             if (n.moveToFirst()) {
                 do {
 
                     @SuppressLint("Range") int number = n.getInt(0);
-                    listQuiz2.get(i).setNumberOfQuestion(number);
-                    i++;
+                    @SuppressLint("Range") int quizID = n.getInt(1);
+                    for(QuizDisplay qd: listQuiz2){
+                        if(qd.getQuizID()==quizID){
+                            qd.setNumberOfQuestion(number);
+                        }
+                    }
                 } while (n.moveToNext());
+            }
+            Cursor m =quizDao1.getAuthorOfQuiz(listQuizID);
+            if (m.moveToFirst()) {
+                do {
+
+                    @SuppressLint("Range") String authorName = m.getString(0);
+                    @SuppressLint("Range") int quizID = m.getInt(1);
+                    for(QuizDisplay qd: listQuiz2){
+                        if(qd.getQuizID()==quizID){
+                            qd.setAuthorName(authorName);
+                        }
+                    }
+                } while (m.moveToNext());
             }
             return listQuiz2;
         }
@@ -112,8 +115,7 @@ public class QuizAllAdapter extends RecyclerView.Adapter<QuizViewHolder>{
         protected void onPostExecute(List<QuizDisplay> quizzes) {
             super.onPostExecute(quizzes);
             listQuiz=quizzes;
-            listQuizReal=quizzes;
-            QuizAllAdapter.this.notifyDataSetChanged();
+            QuizRecentAdapter.this.notifyDataSetChanged();
         }
     }
 }
