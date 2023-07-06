@@ -58,6 +58,21 @@ public class FragmentDetailQuiz extends Fragment {
 
     private void bindingAction() {
         btnFlashCard.setOnClickListener(this::onLearnFlashCardClick);
+        btnLearning.setOnClickListener(this::onLearnClick);
+    }
+
+    private void onLearnClick(View view) {
+        if (callback2 != null) {
+            callback2.onClick(questionOfAQuizAdapter.getListQuestionAnswer());
+        }
+    }
+    public interface OnBtnLearnClick {
+        void onClick(List<QuestionAnswerDisplay> questionAnswerDisplays);
+    }
+
+    private FragmentDetailQuiz.OnBtnLearnClick callback2;
+    public void setOnBtnLearnClickListener(FragmentDetailQuiz.OnBtnLearnClick callback) {
+        this.callback2 = callback;
     }
 
     private void onLearnFlashCardClick(View view) {

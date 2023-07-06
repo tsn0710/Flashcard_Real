@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     private FragmentHoSo fragmentHoSo;
     private FragmentDetailQuiz fragmentDetailQuiz;
     private FragmentFlashcard fragmentFlashcard;
+    private FragmentLearn fragmentLearn;
     private ConstraintLayout cl;
     private QuizAccount quizAccount;
     private QuizAccountDao quizAccountDao;
@@ -109,10 +110,23 @@ public class MainActivity extends AppCompatActivity {
         fragmentDetailQuiz.setContext(this);
         fragmentDetailQuiz.setQuizID(quizId);
         fragmentDetailQuiz.setOnBtnLearnFlashCardClickListener(this:: onBtnLearnFlashCardClick);
+        fragmentDetailQuiz.setOnBtnLearnClickListener(this:: onBtnLearnClick);
         //fragmentDetailQuiz.setOnBtnShowQuizClickListener(this::onBtnShowQuizClick);
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragmentContainerView, fragmentDetailQuiz)
+                .commit();
+    }
+
+    private void onBtnLearnClick(List<QuestionAnswerDisplay> questionAnswerDisplays) {
+        //replace fragment
+        if (fragmentLearn == null) {
+            fragmentLearn = new FragmentLearn();
+        }
+        fragmentLearn.setQuestionAnswerDisplayList(questionAnswerDisplays);
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragmentContainerView, fragmentLearn)
                 .commit();
     }
 
@@ -241,9 +255,9 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
             if(aBoolean){
-                Toast.makeText(MainActivity.this, "Success: added to history", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MainActivity.this, "Success: added to history", Toast.LENGTH_SHORT).show();
             }else{
-                Toast.makeText(MainActivity.this, "Error: Not added to history", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MainActivity.this, "Error: Not added to history", Toast.LENGTH_SHORT).show();
             }
 
         }
