@@ -23,11 +23,13 @@ import com.example.flashcard.dao.AppDatabase;
 import com.example.flashcard.dao.QuestionDao;
 import com.example.flashcard.dao.QuizAccountDao;
 import com.example.flashcard.dao.QuizDao;
+import com.example.flashcard.model.QuestionAnswerDisplay;
 import com.example.flashcard.model.QuizAccount;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private QuizDao quizDao;
@@ -40,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     private FragmentThuVien fragmentThuVien;
     private FragmentHoSo fragmentHoSo;
     private FragmentDetailQuiz fragmentDetailQuiz;
+    private FragmentFlashcard fragmentFlashcard;
     private ConstraintLayout cl;
     private QuizAccount quizAccount;
     private QuizAccountDao quizAccountDao;
@@ -105,10 +108,24 @@ public class MainActivity extends AppCompatActivity {
         fragmentDetailQuiz.setQuestionDao(questionDao);
         fragmentDetailQuiz.setContext(this);
         fragmentDetailQuiz.setQuizID(quizId);
+        fragmentDetailQuiz.setOnBtnLearnFlashCardClickListener(this:: onBtnLearnFlashCardClick);
         //fragmentDetailQuiz.setOnBtnShowQuizClickListener(this::onBtnShowQuizClick);
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragmentContainerView, fragmentDetailQuiz)
+                .commit();
+    }
+
+    private void onBtnLearnFlashCardClick(List<QuestionAnswerDisplay> questionAnswerDisplays) {
+        //replace fragment
+        if (fragmentFlashcard == null) {
+            fragmentFlashcard = new FragmentFlashcard();
+        }
+        fragmentFlashcard.setContext(this);
+        fragmentFlashcard.setQuestionAnswerDisplays(questionAnswerDisplays);
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragmentContainerView, fragmentFlashcard)
                 .commit();
     }
 

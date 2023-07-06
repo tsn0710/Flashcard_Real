@@ -19,6 +19,7 @@ import android.widget.Spinner;
 
 import com.example.flashcard.dao.QuestionDao;
 import com.example.flashcard.dao.QuizDao;
+import com.example.flashcard.model.QuestionAnswerDisplay;
 import com.example.flashcard.model.Quiz;
 import com.example.flashcard.recycleView.QuestionOfAQuizAdapter;
 import com.example.flashcard.recycleView.QuizAllAdapter;
@@ -56,8 +57,23 @@ public class FragmentDetailQuiz extends Fragment {
 
 
     private void bindingAction() {
+        btnFlashCard.setOnClickListener(this::onLearnFlashCardClick);
     }
 
+    private void onLearnFlashCardClick(View view) {
+
+        if (callback != null) {
+            callback.onClick(questionOfAQuizAdapter.getListQuestionAnswer());
+        }
+    }
+    public interface OnBtnLearnFlashCardClick {
+        void onClick(List<QuestionAnswerDisplay> questionAnswerDisplays);
+    }
+
+    private FragmentDetailQuiz.OnBtnLearnFlashCardClick callback;
+    public void setOnBtnLearnFlashCardClickListener(FragmentDetailQuiz.OnBtnLearnFlashCardClick callback) {
+        this.callback = callback;
+    }
     private void bindingView(View view) {
         recyclerView=view.findViewById(R.id.rcvDetailQuiz);
         btnLearning=view.findViewById(R.id.btnLearning);

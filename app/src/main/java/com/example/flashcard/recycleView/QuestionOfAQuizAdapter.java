@@ -59,6 +59,11 @@ public class QuestionOfAQuizAdapter extends RecyclerView.Adapter<QuestionViewHol
     public int getItemCount() {
         return questionAnswerDisplays.size();
     }
+
+    public List<QuestionAnswerDisplay>  getListQuestionAnswer() {
+        return  questionAnswerDisplays;
+    }
+
     private class LoadListQuestion extends AsyncTask<QuestionDao, Integer, List<QuestionAnswerDisplay>> {
         @Override
         protected void onPreExecute() {
