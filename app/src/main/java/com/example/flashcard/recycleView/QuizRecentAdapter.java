@@ -48,7 +48,7 @@ public class QuizRecentAdapter extends RecyclerView.Adapter<QuizViewHolder>{
     public void onBindViewHolder(@NonNull QuizViewHolder holder, int position) {
 
         QuizDisplay c = listQuiz.get(position);
-        holder.bind(c.getQuizID(),c.getTitle(),c.getNumberOfQuestion(),c.getAuthorName());
+        holder.bind(c.getAuthorID(),c.getQuizID(),c.getTitle(),c.getNumberOfQuestion(),c.getAuthorName());
     }
 
     @Override
@@ -69,9 +69,11 @@ public class QuizRecentAdapter extends RecyclerView.Adapter<QuizViewHolder>{
             List<QuizDisplay> listQuiz2= new ArrayList<>();
             if (c.moveToFirst()) {
                 do {
+                    @SuppressLint("Range") int authorID = c.getInt(c.getColumnIndex("accountID"));
                     @SuppressLint("Range") int quizID = c.getInt(c.getColumnIndex("quizID"));
                     @SuppressLint("Range") String title = c.getString(c.getColumnIndex("quizTitle"));
                     QuizDisplay ca = new QuizDisplay();
+                    ca.setAuthorID(authorID);
                     ca.setQuizID(quizID);
                     ca.setTitle(title);
                     listQuiz2.add(ca);

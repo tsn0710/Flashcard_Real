@@ -3,6 +3,7 @@ package com.example.flashcard.recycleView;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,7 +18,9 @@ public class QuizViewHolder extends RecyclerView.ViewHolder{
     private TextView tvQuizTitle;
     private TextView tvNumberOfQuestion;
     private TextView tvAccountName;
+    private Button btnEditQuiz;
     private int quizID;
+    private int accountID;
 
     public QuizViewHolder(@NonNull View itemView, Context context) {
         super(itemView);
@@ -27,7 +30,23 @@ public class QuizViewHolder extends RecyclerView.ViewHolder{
     }
 
     private void bindingAction() {
+
         itemView.setOnClickListener(this::onItemViewClick);
+        btnEditQuiz.setOnClickListener(this::onBtnEditQuizClick);
+    }
+
+    private void onBtnEditQuizClick(View view) {
+        if (callback2 != null) {
+            callback2.onClick(quizID);
+        }
+    }
+    public interface OnBtnEditQuizClick {
+        void onClick(int quizID);
+    }
+
+    private OnBtnEditQuizClick callback2;
+    public void setOnBtnEditQuizClickListener(OnBtnEditQuizClick callback) {
+        this.callback2 = callback;
     }
     private void onItemViewClick(View view) {
         if (callback != null) {
@@ -47,11 +66,20 @@ public class QuizViewHolder extends RecyclerView.ViewHolder{
         tvQuizTitle=itemView.findViewById(R.id.tvQuizTitle);
         tvNumberOfQuestion=itemView.findViewById(R.id.tvNumberOfQuestion);
         tvAccountName=itemView.findViewById(R.id.tvAccountName);
+        btnEditQuiz=itemView.findViewById(R.id.btnEditQuiz);
     }
-    public void bind(int quizID,String quizTitle ,int numberOfQuestion ,String accountName ) {
+    public void bind(int accountID,int quizID,String quizTitle ,int numberOfQuestion ,String accountName ) {
         this.quizID=quizID;
+        this.accountID=accountID;
         tvQuizTitle.setText(quizTitle);
         tvNumberOfQuestion.setText(""+numberOfQuestion+" thuật ngữ");
         tvAccountName.setText(accountName);
+        if(accountID==1){
+            btnEditQuiz.setEnabled(true);
+            btnEditQuiz.setVisibility(View.VISIBLE);
+        }else{
+            btnEditQuiz.setEnabled(false);
+            btnEditQuiz.setVisibility(View.GONE);
+        }
     }
 }
