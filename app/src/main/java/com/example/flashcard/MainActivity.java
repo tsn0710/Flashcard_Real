@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     private FragmentDetailQuiz fragmentDetailQuiz;
     private FragmentFlashcard fragmentFlashcard;
     private FragmentLearn fragmentLearn;
+    private FragmentAddNewQuiz fragmentAddNewQuiz;
     private ConstraintLayout cl;
     private QuizAccount quizAccount;
     private QuizAccountDao quizAccountDao;
@@ -228,8 +229,15 @@ public class MainActivity extends AppCompatActivity {
             finish();
         }
         if(itemId==R.id.optAddNewQuiz){
-            //Intent intentToCartActivity = new Intent(this,AddNewQuiz.class);
-            //this.startActivity(intentToCartActivity);
+            if (fragmentAddNewQuiz == null) {
+                fragmentAddNewQuiz = new FragmentAddNewQuiz();
+            }
+            fragmentAddNewQuiz.setContext(this);
+            fragmentAddNewQuiz.setQuestionDao(questionDao);
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragmentContainerView, fragmentAddNewQuiz)
+                    .commit();
 
         }
         if(itemId==R.id.optLogOut){
