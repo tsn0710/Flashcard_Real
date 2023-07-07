@@ -37,11 +37,11 @@ public class QuizViewHolder extends RecyclerView.ViewHolder{
 
     private void onBtnEditQuizClick(View view) {
         if (callback2 != null) {
-            callback2.onClick(quizID);
+            callback2.onClick(quizID,tvQuizTitle.getText().toString());
         }
     }
     public interface OnBtnEditQuizClick {
-        void onClick(int quizID);
+        void onClick(int quizID, String quizTitle);
     }
 
     private OnBtnEditQuizClick callback2;

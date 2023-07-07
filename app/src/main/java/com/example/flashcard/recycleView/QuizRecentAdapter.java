@@ -36,7 +36,12 @@ public class QuizRecentAdapter extends RecyclerView.Adapter<QuizViewHolder>{
         View v=inflater.inflate(R.layout.layout_quiz_item,parent,false);
         QuizViewHolder cvh = new QuizViewHolder(v,context);
         cvh.setOnBtnShowQuizClickListener(callback);
+        cvh.setOnBtnEditQuizClickListener(callback2);
         return cvh;
+    }
+    private QuizViewHolder.OnBtnEditQuizClick callback2;
+    public void setOnBtnEditQuizClickListener(QuizViewHolder.OnBtnEditQuizClick callback) {
+        this.callback2 = callback;
     }
     private QuizViewHolder.OnBtnShowQuizClick callback;
 

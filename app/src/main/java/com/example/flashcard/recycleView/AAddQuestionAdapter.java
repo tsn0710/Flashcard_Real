@@ -73,6 +73,9 @@ public class AAddQuestionAdapter {
         questionAnswerAddListAfterDeletedAndSave.add(new QuestionAnswerAdd(1,title,"aaaaahihi"));
         new AddQuizQuestionsAnswers().execute(questionAnswerAddListAfterDeletedAndSave);
     }
+
+
+
     private class AddQuizQuestionsAnswers extends AsyncTask<List<QuestionAnswerAdd>, Integer, Boolean> {
 
         @Override

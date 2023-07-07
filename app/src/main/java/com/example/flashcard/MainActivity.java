@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     private FragmentFlashcard fragmentFlashcard;
     private FragmentLearn fragmentLearn;
     private FragmentAddNewQuiz fragmentAddNewQuiz;
+    private FragmentEditQuiz fragmentEditQuiz;
     private ConstraintLayout cl;
     private QuizAccount quizAccount;
     private QuizAccountDao quizAccountDao;
@@ -89,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
         }
         fragmentThuVien.setQuizDao(quizDao);
         fragmentThuVien.setContext(this);
+        fragmentThuVien.setOnBtnEditQuizClickListener(this::onBtnEditQuizClick);
         fragmentThuVien.setOnBtnShowQuizClickListener(this::onBtnShowQuizClick);
         getSupportFragmentManager()
                 .beginTransaction()
@@ -151,6 +153,7 @@ public class MainActivity extends AppCompatActivity {
         }
         fragmentTrangChu.setQuizDao(quizDao);
         fragmentTrangChu.setContext(this);
+        fragmentTrangChu.setOnBtnEditQuizClickListener(this::onBtnEditQuizClick);
         fragmentTrangChu.setOnBtnShowQuizClickListener(this::onBtnShowQuizClick);
         getSupportFragmentManager()
                 .beginTransaction()
@@ -177,6 +180,7 @@ public class MainActivity extends AppCompatActivity {
         }
         fragmentTrangChu.setQuizDao(quizDao);
         fragmentTrangChu.setContext(this);
+        fragmentTrangChu.setOnBtnEditQuizClickListener(this::onBtnEditQuizClick);
         fragmentTrangChu.setOnBtnShowQuizClickListener(this::onBtnShowQuizClick);
         getSupportFragmentManager()
                 .beginTransaction()
@@ -215,10 +219,26 @@ public class MainActivity extends AppCompatActivity {
         }
         fragmentTrangChu.setQuizDao(quizDao);
         fragmentTrangChu.setContext(this);
+        fragmentTrangChu.setOnBtnEditQuizClickListener(this::onBtnEditQuizClick);
+        fragmentTrangChu.setOnBtnShowQuizClickListener(this::onBtnShowQuizClick);
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragmentContainerView, fragmentTrangChu)
                 .commit();
+    }
+
+    private void onBtnEditQuizClick(int quizID, String quizTitle) {
+        if (fragmentEditQuiz == null) {
+            fragmentEditQuiz = new FragmentEditQuiz();
+        }
+        fragmentEditQuiz.setContext(this);
+        fragmentEditQuiz.setQuestionDao(questionDao);
+        fragmentEditQuiz.setQuiz(quizID,quizTitle);
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragmentContainerView, fragmentEditQuiz)
+                .commit();
+
     }
 
 
