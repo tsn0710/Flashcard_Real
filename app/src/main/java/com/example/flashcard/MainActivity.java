@@ -32,6 +32,7 @@ import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+    private EditText Uinformation;
     private QuizDao quizDao;
     private QuestionDao questionDao;
     private Button btnTrangChu;
@@ -53,6 +54,16 @@ public class MainActivity extends AppCompatActivity {
         bindingView();
         bindingAction();
         realQuizList();
+        ReceivingIntent();
+    }
+    private void ReceivingIntent() {
+
+        Intent i = getIntent();
+        String username  =  i.getStringExtra("username");
+
+        String password  =  i.getStringExtra("password");
+
+
     }
 
     private void realQuizList() {
@@ -144,6 +155,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void bindingView() {
+      //  Uinformation = findViewById(R.id.edtUserInfor);
         btnTrangChu=findViewById(R.id.btnTrangChu);
         btnThuVien=findViewById(R.id.btnThuVien);
         btnHoSo=findViewById(R.id.btnHoSo);
