@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.flashcard.AccountNow;
 import com.example.flashcard.R;
 import com.example.flashcard.dao.QuestionDao;
 import com.example.flashcard.model.Answer;
@@ -89,7 +90,7 @@ public class AEditQuestionAdapter{
                 }
                 //add question answer
                 else{
-                    if(a.isAccepted()){
+                    if(a.isDeleted()==false&&a.isAccepted()){
                         questionsAdd.add(a.getQuestion());
                         answersAdd.add(a.getAnswer());
                     }
@@ -97,11 +98,11 @@ public class AEditQuestionAdapter{
                 }
                 i++;
             }
-            if(questions.size()==0){
+            if(questions.size()==0&&questionsAdd.size()==0){
                 Toast.makeText(context,"Không được để trống Question hoặc Answer.", Toast.LENGTH_SHORT).show();
                 return;
             }
-            quiz=new Quiz(quizID,title,1);
+            quiz=new Quiz(quizID,title, AccountNow.thisAccount.getAccountID());
             //Update
 new Update().execute(1);
         }

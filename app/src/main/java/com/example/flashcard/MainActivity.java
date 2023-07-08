@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import com.example.flashcard.dao.AccountDao;
 import com.example.flashcard.dao.AppDatabase;
 import com.example.flashcard.dao.QuestionDao;
 import com.example.flashcard.dao.QuizAccountDao;
@@ -34,6 +35,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     private QuizDao quizDao;
     private QuestionDao questionDao;
+    private AccountDao accountDao;
     private Button btnTrangChu;
     private Button btnThuVien;
     private Button btnHoSo;
@@ -78,6 +80,8 @@ public class MainActivity extends AppCompatActivity {
         if (fragmentHoSo == null) {
             fragmentHoSo = new FragmentHoSo();
         }
+        fragmentHoSo.setContext(this);
+        fragmentHoSo.setDao(accountDao);
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragmentContainerView, fragmentHoSo)
@@ -101,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
     private void onBtnShowQuizClick(int quizId) {
         //get quizaccount to add to history
         quizAccount.setQuizID(quizId);
-        quizAccount.setAccountID(1);
+        quizAccount.setAccountID(AccountNow.thisAccount.getAccountID());
         quizAccount.setLastTimeJoin(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
         //add to history synctask
         new AddQuizToHistory().execute(quizAccountDao);
@@ -174,6 +178,7 @@ public class MainActivity extends AppCompatActivity {
         quizDao=db.quizDao();
         quizAccountDao=db.quizAccountDao();
         questionDao=db.questionDao();
+        accountDao=db.accountDao();
         //them fragment trang chu luc mo activity
         if (fragmentTrangChu == null) {
             fragmentTrangChu = new FragmentTrangChu();
@@ -261,12 +266,12 @@ public class MainActivity extends AppCompatActivity {
 
         }
         if(itemId==R.id.optLogOut){
-            /*AccountNow.thisAccount=null;
+            AccountNow.thisAccount=null;
             getSharedPreferences("MyPref", MODE_PRIVATE).edit().clear().commit();
             //open login activity
-            Intent intentToLoginActivity = new Intent(this,Login.class);
-            this.startActivity(intentToLoginActivity);
-            finish();*/
+            Intent intentToLandingActivity = new Intent(this,LandingActivity.class);
+            this.startActivity(intentToLandingActivity);
+            finish();
         }
         return super.onOptionsItemSelected(item);
     }

@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.flashcard.AccountNow;
 import com.example.flashcard.R;
 import com.example.flashcard.dao.QuestionDao;
 import com.example.flashcard.model.Answer;
@@ -84,7 +85,7 @@ public class AAddQuestionAdapter {
             lists[0].remove(questionAnswerAddListAfterDeletedAndSave.size()-1);
             Quiz a = new Quiz();
             a.setQuizTitle(i);
-            a.setAccountID(1);
+            a.setAccountID(AccountNow.thisAccount.getAccountID());
             Long id = questionDao.InsertQuiz(a);
             int id1 = id.intValue();
             List<Question>questions = new ArrayList<>();

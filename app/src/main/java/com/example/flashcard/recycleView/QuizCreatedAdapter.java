@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.flashcard.AccountNow;
 import com.example.flashcard.R;
 import com.example.flashcard.dao.QuizDao;
 import com.example.flashcard.model.QuizDisplay;
@@ -70,7 +71,7 @@ public class QuizCreatedAdapter extends RecyclerView.Adapter<QuizViewHolder>{
         @Override
         protected List<QuizDisplay> doInBackground(QuizDao... quizDaos) {
             QuizDao quizDao1 = quizDaos[0];
-            Cursor c = quizDao1.getMyOwnQuiz();
+            Cursor c = quizDao1.getMyOwnQuiz(AccountNow.thisAccount.getAccountID());
             List<QuizDisplay> listQuiz2= new ArrayList<>();
             if (c.moveToFirst()) {
                 do {

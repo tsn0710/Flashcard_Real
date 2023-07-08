@@ -36,13 +36,13 @@ public interface QuizDao {
     public Cursor getNumberOfQuestion( );
     @Query("SELECT quiz.accountID,quizID,quizTitle, accountName FROM quiz,account WHERE quiz.accountID=account.accountID")
     public Cursor getAllQuizDisplay();
-    @Query("SELECT quiz.accountID,quiz.quizID,quizTitle FROM quiz,account,quizAccount WHERE quiz.quizID=quizAccount.quizID and account.accountID=quizAccount.accountID and quizAccount.accountID=1 Order by quizAccountID desc LIMIT 10")
-    public Cursor getTenQuizRecently();
+    @Query("SELECT quiz.accountID,quiz.quizID,quizTitle FROM quiz,account,quizAccount WHERE quiz.quizID=quizAccount.quizID and account.accountID=quizAccount.accountID and quizAccount.accountID=:accountID Order by quizAccountID desc LIMIT 10")
+    public Cursor getTenQuizRecently(int accountID);
     @Query("SELECT COUNT(*),quizID FROM question where quizID in (:quizIDs) GROUP BY quizID")
     public Cursor getNumberOfQuestion(List<Integer> quizIDs );
 
     @Query("SELECT account.accountName,quizID FROM quiz,account where quiz.accountID=account.accountID and quizID in(:quizIDs)")
     public Cursor getAuthorOfQuiz(List<Integer> quizIDs );
-    @Query("SELECT account.accountID,quizID,quizTitle, accountName FROM quiz,account WHERE quiz.accountID=account.accountID and quiz.accountID=1")
-    public Cursor getMyOwnQuiz();
+    @Query("SELECT account.accountID,quizID,quizTitle, accountName FROM quiz,account WHERE quiz.accountID=account.accountID and quiz.accountID=:accountID")
+    public Cursor getMyOwnQuiz(int accountID);
 }

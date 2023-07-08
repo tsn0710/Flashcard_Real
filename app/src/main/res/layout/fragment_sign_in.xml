@@ -4,10 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".recycleView.SignInActivity">
+    tools:context=".FragmentSignIn">
 
-
-    <!--<EditText
+    <EditText
         android:id="@+id/edtNameLog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -39,6 +38,6 @@
         android:layout_marginTop="51dp"
         android:text="Log In"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtPasslLog" />-->
+        app:layout_constraintTop_toBottomOf="@+id/edtPasslLog" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

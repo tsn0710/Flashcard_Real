@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.flashcard.AccountNow;
 import com.example.flashcard.R;
 import com.example.flashcard.dao.QuizDao;
 import com.example.flashcard.model.Quiz;
@@ -74,7 +75,7 @@ public class QuizViewHolder extends RecyclerView.ViewHolder{
         tvQuizTitle.setText(quizTitle);
         tvNumberOfQuestion.setText(""+numberOfQuestion+" thuật ngữ");
         tvAccountName.setText(accountName);
-        if(accountID==1){
+        if(accountID== AccountNow.thisAccount.getAccountID()){
             btnEditQuiz.setEnabled(true);
             btnEditQuiz.setVisibility(View.VISIBLE);
         }else{
