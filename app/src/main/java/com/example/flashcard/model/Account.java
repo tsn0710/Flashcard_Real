@@ -22,9 +22,9 @@ public class Account {
     @ColumnInfo(name = "accountDOB")
     private String accountDOB;
 
-    public Account(){
-
+    public Account() {
     }
+
     public Account(int accountID, @NotNull String accountName, @NotNull String accountPassword, @NotNull String accountEmail, @NotNull String accountDOB) {
         this.accountID = accountID;
         this.accountName = accountName;

@@ -46,6 +46,7 @@ public class FragmentTrangChu extends Fragment {
     private void initRecyclerView() {
         adapter=new QuizAllAdapter(quizDao, context);
         adapter.setOnBtnShowQuizClickListener(callback);
+        adapter.setOnBtnEditQuizClickListener(callback2);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
     }
@@ -59,6 +60,10 @@ public class FragmentTrangChu extends Fragment {
     private void bindingView(View view) {
         recyclerView=view.findViewById(R.id.rcvTrangChuQuiz);
 
+    }
+    private QuizViewHolder.OnBtnEditQuizClick callback2;
+    public void setOnBtnEditQuizClickListener(QuizViewHolder.OnBtnEditQuizClick callback) {
+        this.callback2 = callback;
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

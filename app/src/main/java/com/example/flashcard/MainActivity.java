@@ -32,7 +32,6 @@ import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    private EditText Uinformation;
     private QuizDao quizDao;
     private QuestionDao questionDao;
     private Button btnTrangChu;
@@ -44,6 +43,9 @@ public class MainActivity extends AppCompatActivity {
     private FragmentHoSo fragmentHoSo;
     private FragmentDetailQuiz fragmentDetailQuiz;
     private FragmentFlashcard fragmentFlashcard;
+    private FragmentLearn fragmentLearn;
+    private FragmentAddNewQuiz fragmentAddNewQuiz;
+    private FragmentEditQuiz fragmentEditQuiz;
     private ConstraintLayout cl;
     private QuizAccount quizAccount;
     private QuizAccountDao quizAccountDao;
@@ -54,16 +56,6 @@ public class MainActivity extends AppCompatActivity {
         bindingView();
         bindingAction();
         realQuizList();
-        ReceivingIntent();
-    }
-    private void ReceivingIntent() {
-
-        Intent i = getIntent();
-        String username  =  i.getStringExtra("username");
-
-        String password  =  i.getStringExtra("password");
-
-
     }
 
     private void realQuizList() {
@@ -98,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
         }
         fragmentThuVien.setQuizDao(quizDao);
         fragmentThuVien.setContext(this);
+        fragmentThuVien.setOnBtnEditQuizClickListener(this::onBtnEditQuizClick);
         fragmentThuVien.setOnBtnShowQuizClickListener(this::onBtnShowQuizClick);
         getSupportFragmentManager()
                 .beginTransaction()
@@ -120,10 +113,23 @@ public class MainActivity extends AppCompatActivity {
         fragmentDetailQuiz.setContext(this);
         fragmentDetailQuiz.setQuizID(quizId);
         fragmentDetailQuiz.setOnBtnLearnFlashCardClickListener(this:: onBtnLearnFlashCardClick);
+        fragmentDetailQuiz.setOnBtnLearnClickListener(this:: onBtnLearnClick);
         //fragmentDetailQuiz.setOnBtnShowQuizClickListener(this::onBtnShowQuizClick);
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragmentContainerView, fragmentDetailQuiz)
+                .commit();
+    }
+
+    private void onBtnLearnClick(List<QuestionAnswerDisplay> questionAnswerDisplays) {
+        //replace fragment
+        if (fragmentLearn == null) {
+            fragmentLearn = new FragmentLearn();
+        }
+        fragmentLearn.setQuestionAnswerDisplayList(questionAnswerDisplays);
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragmentContainerView, fragmentLearn)
                 .commit();
     }
 
@@ -147,6 +153,7 @@ public class MainActivity extends AppCompatActivity {
         }
         fragmentTrangChu.setQuizDao(quizDao);
         fragmentTrangChu.setContext(this);
+        fragmentTrangChu.setOnBtnEditQuizClickListener(this::onBtnEditQuizClick);
         fragmentTrangChu.setOnBtnShowQuizClickListener(this::onBtnShowQuizClick);
         getSupportFragmentManager()
                 .beginTransaction()
@@ -155,7 +162,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void bindingView() {
-      //  Uinformation = findViewById(R.id.edtUserInfor);
         btnTrangChu=findViewById(R.id.btnTrangChu);
         btnThuVien=findViewById(R.id.btnThuVien);
         btnHoSo=findViewById(R.id.btnHoSo);
@@ -174,6 +180,7 @@ public class MainActivity extends AppCompatActivity {
         }
         fragmentTrangChu.setQuizDao(quizDao);
         fragmentTrangChu.setContext(this);
+        fragmentTrangChu.setOnBtnEditQuizClickListener(this::onBtnEditQuizClick);
         fragmentTrangChu.setOnBtnShowQuizClickListener(this::onBtnShowQuizClick);
         getSupportFragmentManager()
                 .beginTransaction()
@@ -212,10 +219,26 @@ public class MainActivity extends AppCompatActivity {
         }
         fragmentTrangChu.setQuizDao(quizDao);
         fragmentTrangChu.setContext(this);
+        fragmentTrangChu.setOnBtnEditQuizClickListener(this::onBtnEditQuizClick);
+        fragmentTrangChu.setOnBtnShowQuizClickListener(this::onBtnShowQuizClick);
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragmentContainerView, fragmentTrangChu)
                 .commit();
+    }
+
+    private void onBtnEditQuizClick(int quizID, String quizTitle) {
+        if (fragmentEditQuiz == null) {
+            fragmentEditQuiz = new FragmentEditQuiz();
+        }
+        fragmentEditQuiz.setContext(this);
+        fragmentEditQuiz.setQuestionDao(questionDao);
+        fragmentEditQuiz.setQuiz(quizID,quizTitle);
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragmentContainerView, fragmentEditQuiz)
+                .commit();
+
     }
 
 
@@ -226,8 +249,15 @@ public class MainActivity extends AppCompatActivity {
             finish();
         }
         if(itemId==R.id.optAddNewQuiz){
-            //Intent intentToCartActivity = new Intent(this,AddNewQuiz.class);
-            //this.startActivity(intentToCartActivity);
+            if (fragmentAddNewQuiz == null) {
+                fragmentAddNewQuiz = new FragmentAddNewQuiz();
+            }
+            fragmentAddNewQuiz.setContext(this);
+            fragmentAddNewQuiz.setQuestionDao(questionDao);
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragmentContainerView, fragmentAddNewQuiz)
+                    .commit();
 
         }
         if(itemId==R.id.optLogOut){
@@ -253,9 +283,9 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
             if(aBoolean){
-                Toast.makeText(MainActivity.this, "Success: added to history", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MainActivity.this, "Success: added to history", Toast.LENGTH_SHORT).show();
             }else{
-                Toast.makeText(MainActivity.this, "Error: Not added to history", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MainActivity.this, "Error: Not added to history", Toast.LENGTH_SHORT).show();
             }
 
         }

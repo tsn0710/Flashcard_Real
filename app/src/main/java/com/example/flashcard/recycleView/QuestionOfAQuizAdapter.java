@@ -91,7 +91,7 @@ public class QuestionOfAQuizAdapter extends RecyclerView.Adapter<QuestionViewHol
         protected void onPostExecute(List<QuestionAnswerDisplay> questionAnswerDisplaysResult) {
             super.onPostExecute(questionAnswerDisplaysResult);
             questionAnswerDisplays=questionAnswerDisplaysResult;
-            QuestionOfAQuizAdapter.this.notifyDataSetChanged();;
+
         }
     }
 }

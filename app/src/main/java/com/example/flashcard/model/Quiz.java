@@ -24,7 +24,8 @@ public class Quiz {
         this.quizTitle = quizTitle;
         this.accountID = accountID;
     }
-
+    public Quiz() {
+    }
     public int getQuizID() {
         return quizID;
     }

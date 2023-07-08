@@ -74,12 +74,14 @@ public class FragmentThuVien extends Fragment {
                     recyclerView.setAdapter(quizCreatedAdapter);
                     recyclerView.setLayoutManager(new LinearLayoutManager(context));
                     quizCreatedAdapter.setOnBtnShowQuizClickListener(callback);
+                    quizCreatedAdapter.setOnBtnEditQuizClickListener(callback2);
                 }
                 if(((String) parent.getItemAtPosition(position)).equals("Đã học gần đây")){
                     QuizRecentAdapter quizRecentAdapter = new QuizRecentAdapter(quizDao,context);
                     recyclerView.setAdapter(quizRecentAdapter);
                     recyclerView.setLayoutManager(new LinearLayoutManager(context));
                     quizRecentAdapter.setOnBtnShowQuizClickListener(callback);
+                    quizRecentAdapter.setOnBtnEditQuizClickListener(callback2);
                 }
             }
 
@@ -89,6 +91,10 @@ public class FragmentThuVien extends Fragment {
             }
         });
         //
+    }
+    private QuizViewHolder.OnBtnEditQuizClick callback2;
+    public void setOnBtnEditQuizClickListener(QuizViewHolder.OnBtnEditQuizClick callback) {
+        this.callback2 = callback;
     }
     private QuizViewHolder.OnBtnShowQuizClick callback;
     public void setOnBtnShowQuizClickListener(QuizViewHolder.OnBtnShowQuizClick callback) {

@@ -6,7 +6,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
@@ -20,12 +19,11 @@ import android.widget.Toast;
 import com.example.flashcard.dao.QuestionDao;
 import com.example.flashcard.model.QuestionAnswerAdd;
 import com.example.flashcard.recycleView.AAddQuestionAdapter;
+import com.example.flashcard.recycleView.AEditQuestionAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class FragmentAddNewQuiz extends Fragment {
-
+public class FragmentEditQuiz extends Fragment {
     private Button btnSaveQuiz;
     private Button btnAddQuestionAnswer;
     private EditText edtQuizTitle;
@@ -36,29 +34,35 @@ public class FragmentAddNewQuiz extends Fragment {
     public void setQuestionDao(QuestionDao questionDao){
         this.questionDao=questionDao;
     }
-    //AddQuestionAdapter addQuestionAdapter;
-    AAddQuestionAdapter aaddQuestionAdapter;
+    AEditQuestionAdapter aEditQuestionAdapter;
     List<QuestionAnswerAdd> questionAnswerAddList;
+    int quizID;
+            String quizTitle;
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         bindingView(view);
         bindingAction();
-        //initRecycleView();
         initLinearLayout();
+    }
+    public void setQuiz(int quizID, String quizTitle){
+        this.quizID=quizID;
+        this.quizTitle=quizTitle;
     }
 
     private void initLinearLayout() {
-        aaddQuestionAdapter=new AAddQuestionAdapter(context,questionDao);
-        aaddQuestionAdapter.setLlAddQuestionAnswer(llAddQuestionAnswer);
+        aEditQuestionAdapter=new AEditQuestionAdapter(context,questionDao);
+        aEditQuestionAdapter.setLlAddQuestionAnswer(llAddQuestionAnswer);
+        aEditQuestionAdapter.setLayout_add_question_item(R.layout.layout_add_question_item);
+        aEditQuestionAdapter.setQuizID(quizID);
+
     }
 
-    /*private void initRecycleView() {
-        addQuestionAdapter=new AddQuestionAdapter(context,questionDao);
-        addQuestionAdapter.setQuestionAnswerAddList(new ArrayList<>());
-        recyclerView.setAdapter(addQuestionAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(context));
-    }*/
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        edtQuizTitle.setText(quizTitle);
+    }
 
     private void bindingAction() {
         btnAddQuestionAnswer.setOnClickListener(this::btnAddNewItem);
@@ -70,25 +74,21 @@ public class FragmentAddNewQuiz extends Fragment {
         if(title.length()==0){
             Toast.makeText(context, "Quiz title không thể để trống", Toast.LENGTH_SHORT).show();
         }else{
-            aaddQuestionAdapter.saveThisQuiz(title);
-            //addQuestionAdapter.saveThisQuiz(title);
+            aEditQuestionAdapter.saveThisQuiz(quizID,title);
         }
 
     }
 
     private void btnAddNewItem(View view) {
-
-        //addQuestionAdapter.addNewItem();
-        aaddQuestionAdapter.addNewItem(R.layout.layout_add_question_item);
-
+        aEditQuestionAdapter.addNewItem();
     }
 
     private void bindingView(View view) {
         llAddQuestionAnswer=view.findViewById(R.id.llAddQuestionAnswer);
-        //recyclerView=view.findViewById(R.id.rcvAddQuestionAnswer);
         btnSaveQuiz=view.findViewById(R.id.btnSaveQuizAdd);
         btnAddQuestionAnswer=view.findViewById(R.id.btnAddNewItem);
         edtQuizTitle=view.findViewById(R.id.edtQuizTitle);
+
     }
 
     @Override
@@ -100,5 +100,5 @@ public class FragmentAddNewQuiz extends Fragment {
 
     public void setContext(Context mainActivity) {
         this.context=mainActivity;
-    }
-}
+
+}}

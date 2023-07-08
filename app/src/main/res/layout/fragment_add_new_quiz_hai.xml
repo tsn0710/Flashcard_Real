@@ -5,8 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".FragmentAddNewQuiz">
-
-
     <Button
         android:id="@+id/btnSaveQuizAdd"
         android:layout_width="wrap_content"
@@ -16,11 +14,7 @@
         android:text="Save"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rcvAddQuestionAnswer"
+    <ScrollView
         android:layout_width="match_parent"
 
         android:layout_height="match_parent"
@@ -28,12 +22,26 @@
         android:layout_marginTop="90dp"
         android:layout_marginEnd="5dp"
         android:layout_marginBottom="5dp"
-        android:background="#EFEFEF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+    <LinearLayout
+    android:id="@+id/llAddQuestionAnswer"
+    android:layout_width="match_parent"
 
+    android:layout_height="match_parent"
+    android:layout_marginStart="0dp"
+    android:layout_marginTop="0dp"
+    android:layout_marginEnd="0dp"
+    android:layout_marginBottom="0dp"
+    android:background="#EFEFEF"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    android:orientation="vertical" />
+</ScrollView>
     <Button
         android:id="@+id/btnAddNewItem"
         android:layout_width="69dp"
