@@ -32,6 +32,14 @@ public class Account {
         this.accountEmail = accountEmail;
         this.accountDOB = accountDOB;
     }
+    public Account( @NotNull String accountName, @NotNull String accountPassword, @NotNull String accountEmail, @NotNull String accountDOB) {
+
+        this.accountName = accountName;
+        this.accountPassword = accountPassword;
+        this.accountEmail = accountEmail;
+        this.accountDOB = accountDOB;
+    }
+
 
     public int getAccountID() {
         return accountID;

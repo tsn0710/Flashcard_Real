@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.flashcard.dao.AccountDao;
@@ -30,6 +31,7 @@ import java.util.List;
 
 public class FragmentSignIn extends Fragment {
     private EditText name, pass;
+    private TextView textView8;
     private Button btnLog;
     private AccountAdapter db;
     private AccountDao accountDao;
@@ -46,7 +48,7 @@ public class FragmentSignIn extends Fragment {
     private SharedPreferences.Editor editor;
     void BindingView(View view){
         name = view.findViewById(R.id.edtNameLog);
-
+        textView8 = view.findViewById(R.id.textView8);
         pass = view.findViewById(R.id.edtPasslLog);
 
         btnLog = view.findViewById(R.id.btnLog);
@@ -54,8 +56,14 @@ public class FragmentSignIn extends Fragment {
     }
     void BindAction(){
 
-
+        textView8.setOnClickListener(this::ToForgotPass);
         btnLog.setOnClickListener(this::LogIn);
+    }
+
+    private void ToForgotPass(View view) {
+        getActivity().getFragmentManager().popBackStack();
+        Intent intent = new Intent(this.getContext(), ForgotPactivity.class);
+        startActivity(intent);
     }
 
     private void LogIn(View view) {
@@ -68,9 +76,13 @@ public class FragmentSignIn extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        pref = context.getSharedPreferences("MyPref", context.MODE_PRIVATE);
-        editor = pref.edit();
-        //kiem tra preferent xem co tai khoan hay chua
+      try {
+          pref = context.getSharedPreferences("MyPref", context.MODE_PRIVATE);
+          editor = pref.edit();
+      }catch (Exception e) {
+      }
+      if(pref!=null){
+    //kiem tra preferent xem co tai khoan hay chua
         if(isAccountNotLogOut()){
             //neu co tk roi thi dat tk vao AccountNow
             AccountNow.thisAccount = getAccountFromPreference();
@@ -82,7 +94,7 @@ public class FragmentSignIn extends Fragment {
             //neu chua co
             BindingView(view);
             BindAction();
-        }
+        }}
     }
 
     private Account getAccountFromPreference() {

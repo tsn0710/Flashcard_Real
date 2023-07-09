@@ -2,15 +2,12 @@ package com.example.flashcard;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
 import com.example.flashcard.dao.AccountDao;
 import com.example.flashcard.dao.AppDatabase;
-import com.example.flashcard.recycleView.SignInActivity;
-import com.example.flashcard.recycleView.SignUpActivity;
 
 public class LandingActivity extends AppCompatActivity {
     private Button btnsignup, btnsignin;
@@ -39,6 +36,7 @@ public class LandingActivity extends AppCompatActivity {
         btnsignup =  findViewById(R.id.btnSignUp);
         AppDatabase db =AppDatabase.getInstance(this);
         accountDao=db.accountDao();
+
     }
     void BindingAction(){
         btnsignin.setOnClickListener(this::ToLogin);

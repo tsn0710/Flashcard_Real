@@ -17,7 +17,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 public class SecondActivity extends AppCompatActivity {
-    GoogleSignInOptions gso;
+    /*GoogleSignInOptions gso;
     GoogleSignInClient gsc;
     TextView name, email;
     Button signOut;
@@ -29,6 +29,7 @@ public class SecondActivity extends AppCompatActivity {
         name = findViewById(R.id.Name);
         email = findViewById(R.id.email);
         signOut = findViewById(R.id.btnSignout);
+
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
         gsc = GoogleSignIn.getClient(this,gso);
 
@@ -55,5 +56,5 @@ public class SecondActivity extends AppCompatActivity {
                 startActivity(new Intent(SecondActivity.this, ggLogin.class));
             }
         });
-    }
+    }*/
 }

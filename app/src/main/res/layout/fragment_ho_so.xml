@@ -4,55 +4,45 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#95FFEB3B"
     tools:context=".FragmentHoSo">
-
 
 
     <EditText
         android:id="@+id/edtNameEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="112dp"
-        android:layout_marginTop="44dp"
+        android:layout_marginStart="26dp"
+        android:layout_marginTop="53dp"
         android:ems="10"
+        android:enabled="false"
         android:hint="Name"
         android:inputType="text"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imageView"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/edtEmailEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="113dp"
-        android:layout_marginTop="29dp"
+        android:layout_marginStart="156dp"
+        android:layout_marginTop="28dp"
         android:ems="10"
+        android:enabled="false"
         android:hint="Email"
         android:inputType="text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edtNameEdit" />
 
     <EditText
-        android:id="@+id/edtDobEdit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="113dp"
-        android:layout_marginTop="32dp"
-        android:ems="10"
-        android:hint="Date of Biryh"
-        android:inputType="text"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtEmailEdit" />
-
-    <EditText
         android:id="@+id/edtPassEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="113dp"
-        android:layout_marginTop="39dp"
+        android:layout_marginStart="156dp"
+        android:layout_marginTop="20dp"
         android:ems="10"
         android:hint="New Password"
-        android:inputType="text"
+        android:inputType="textPassword"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edtDobEdit" />
 
@@ -60,28 +50,65 @@
         android:id="@+id/edtRepassEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="112dp"
+        android:layout_marginStart="156dp"
         android:layout_marginTop="20dp"
         android:ems="10"
         android:hint="Replace New Password"
-        android:inputType="text"
+        android:inputType="textPassword"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edtPassEdit" />
 
     <Button
         android:id="@+id/btnSignEdit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="168dp"
-        android:layout_marginTop="63dp"
-        android:text="Save"
+        android:layout_width="209dp"
+        android:layout_height="51dp"
+        android:layout_marginStart="156dp"
+        android:layout_marginTop="56dp"
+        android:text="Update My Information"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edtRepassEdit" />
 
+    <EditText
+        android:id="@+id/edtDobEdit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="156dp"
+        android:layout_marginTop="12dp"
+        android:ems="10"
+        android:hint="Your Birthday"
+        android:inputType="date"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edtEmailEdit" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="125dp"
+        android:layout_height="107dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/img" />
+
     <TextView
+        android:id="@+id/textView10"
+        android:layout_width="121dp"
+        android:layout_height="118dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:text="User Profile"
+        android:textAlignment="center"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+    <!--<TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="ho so fragment" />
-
+        android:text="ho so fragment"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp" />
+-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
