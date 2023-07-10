@@ -26,7 +26,7 @@ public interface AccountDao {
     @Query("SELECT * FROM account WHERE accountName = :accountName OR accountEmail = :pass   ")
     Account GetAccount(String accountName, String pass);
 
-    @Query("SELECT * FROM account WHERE  accountName = :pass   ")
+    @Query("SELECT * FROM account WHERE  accountEmail = :pass   ")
     Account GetAccountByMail(String pass);
 
 

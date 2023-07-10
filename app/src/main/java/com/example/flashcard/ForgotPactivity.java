@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.flashcard.dao.AccountDao;
+import com.example.flashcard.dao.AppDatabase;
 import com.example.flashcard.model.Account;
 
 public class ForgotPactivity extends AppCompatActivity {
@@ -25,18 +26,27 @@ public class ForgotPactivity extends AppCompatActivity {
         setContentView(R.layout.activity_forgot_pactivity);
         mail = findViewById(R.id.editTextText);
         getP = findViewById(R.id.button);
-      /*  textView9 = findViewById(R.id.textView7);*/
+
+        accountDao = AppDatabase.getInstance(this).accountDao();
+
+        textView9 = findViewById(R.id.textView7);
         getP.setOnClickListener(this::GetPassword);
 
     }
 
+/*    public void setAccountDao(AccountDao accountDao) {
+        this.accountDao = accountDao;
+    }*/
+
     private void GetPassword(View view) {
         getAccount();
 
-//        textView9.setText("Your Password is"+signup.getAccountPassword());
-//        textView9.setVisibility(View.VISIBLE);
+
         if (signup != null) {
-            Toast.makeText(this, "Your Password is" + signup.getAccountPassword(), Toast.LENGTH_SHORT).show();
+ //           Toast.makeText(this, "Your Password is" + signup.getAccountPassword(), Toast.LENGTH_SHORT).show();
+            textView9.setText("Your Username is: "+signup.getAccountName()+"" +
+                    "\n Your Password is:"+signup.getAccountPassword());
+            textView9.setVisibility(View.VISIBLE);
         }
     }
 

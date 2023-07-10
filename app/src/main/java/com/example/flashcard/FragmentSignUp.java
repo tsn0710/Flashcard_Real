@@ -38,7 +38,7 @@ public class FragmentSignUp extends Fragment {
     private ArrayAdapter<Account> adapter;
     private Context context;
 
-    Account signup = new Account();
+    Account signup ;
     public void setContext(Context context) {
         this.context = context;
     }
@@ -262,7 +262,7 @@ public class FragmentSignUp extends Fragment {
             super.onPostExecute(accounts);
             adapter = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1,accounts);
             listView.setAdapter(adapter);
-            listView.getCount();
+//            listView.getCount();
         }
     }
 

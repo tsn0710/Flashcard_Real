@@ -61,7 +61,7 @@ public class FragmentSignIn extends Fragment {
     }
 
     private void ToForgotPass(View view) {
-        getActivity().getFragmentManager().popBackStack();
+     //   getActivity().getFragmentManager().popBackStack();
         Intent intent = new Intent(this.getContext(), ForgotPactivity.class);
         startActivity(intent);
     }
