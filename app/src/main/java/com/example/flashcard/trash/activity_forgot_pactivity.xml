@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".ForgotPactivity">
 
-    <EditText
+    <!--<EditText
         android:id="@+id/editTextText"
         android:layout_width="260dp"
         android:layout_height="52dp"
@@ -37,6 +37,6 @@
         android:text="    "
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:visibility="invisible" />
+        tools:visibility="invisible" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -65,7 +65,7 @@ public class QuizAllAdapter extends RecyclerView.Adapter<QuizViewHolder>{
     public void changeList(String query) {
         List<QuizDisplay> result= new ArrayList<>() ;
         for (QuizDisplay c:listQuiz) {
-            if(c.getTitle().contains(query)){
+            if(c.getTitle().toLowerCase().contains(query.toLowerCase())){
                 result.add(c);
             }
         }

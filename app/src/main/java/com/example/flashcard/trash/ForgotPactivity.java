@@ -1,3 +1,4 @@
+/*
 package com.example.flashcard;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -34,9 +35,11 @@ public class ForgotPactivity extends AppCompatActivity {
 
     }
 
+*/
 /*    public void setAccountDao(AccountDao accountDao) {
         this.accountDao = accountDao;
-    }*/
+    }*//*
+
 
     private void GetPassword(View view) {
         getAccount();
@@ -68,4 +71,4 @@ public class ForgotPactivity extends AppCompatActivity {
 
         }
     }
-}
+}*/

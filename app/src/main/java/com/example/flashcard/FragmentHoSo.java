@@ -21,7 +21,6 @@ import android.widget.Toast;
 
 import com.example.flashcard.dao.AccountDao;
 import com.example.flashcard.model.Account;
-import com.example.flashcard.recycleView.AccountAdapter;
 
 import java.util.Calendar;
 import java.util.List;

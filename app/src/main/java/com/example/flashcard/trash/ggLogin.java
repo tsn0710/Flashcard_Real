@@ -1,3 +1,4 @@
+/*
 package com.example.flashcard;
 
 import androidx.annotation.Nullable;
@@ -18,7 +19,8 @@ import com.google.android.gms.tasks.Task;
 
 public class ggLogin extends AppCompatActivity {
 
-  /*  GoogleSignInOptions gso;
+  */
+/*  GoogleSignInOptions gso;
     GoogleSignInClient gsc;
    private Button ggBtn;
     @Override
@@ -62,5 +64,6 @@ public class ggLogin extends AppCompatActivity {
      void navigateToSecondActivity() {
         Intent intent = new Intent(ggLogin.this,SecondActivity.class);
         startActivity(intent);
-    }*/
-}
+    }*//*
+
+}*/

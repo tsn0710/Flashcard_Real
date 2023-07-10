@@ -23,7 +23,7 @@ import android.widget.Toast;
 import com.example.flashcard.dao.AccountDao;
 import com.example.flashcard.dao.QuizAccountDao;
 import com.example.flashcard.model.Account;
-import com.example.flashcard.recycleView.AccountAdapter;
+import com.example.flashcard.recycleView.QuizViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,9 +31,7 @@ import java.util.List;
 
 public class FragmentSignIn extends Fragment {
     private EditText name, pass;
-    private TextView textView8;
     private Button btnLog;
-    private AccountAdapter db;
     private AccountDao accountDao;
     private ArrayAdapter<Account> adapter;
     private Context context;
@@ -48,7 +46,6 @@ public class FragmentSignIn extends Fragment {
     private SharedPreferences.Editor editor;
     void BindingView(View view){
         name = view.findViewById(R.id.edtNameLog);
-        textView8 = view.findViewById(R.id.textView8);
         pass = view.findViewById(R.id.edtPasslLog);
 
         btnLog = view.findViewById(R.id.btnLog);
@@ -56,15 +53,9 @@ public class FragmentSignIn extends Fragment {
     }
     void BindAction(){
 
-        textView8.setOnClickListener(this::ToForgotPass);
         btnLog.setOnClickListener(this::LogIn);
     }
 
-    private void ToForgotPass(View view) {
-     //   getActivity().getFragmentManager().popBackStack();
-        Intent intent = new Intent(this.getContext(), ForgotPactivity.class);
-        startActivity(intent);
-    }
 
     private void LogIn(View view) {
         List<String> infor= new ArrayList<>();
@@ -86,10 +77,10 @@ public class FragmentSignIn extends Fragment {
         if(isAccountNotLogOut()){
             //neu co tk roi thi dat tk vao AccountNow
             AccountNow.thisAccount = getAccountFromPreference();
-            //chuyen sang MainActivity
-            Intent intentToMainActivity = new Intent(context, MainActivity.class);
-            this.startActivity(intentToMainActivity);
-            //finish();
+            //chuyen sang MainActivity  and finish
+            if (callback != null) {
+                callback.onSuccess();
+            }
         }else{
             //neu chua co
             BindingView(view);
@@ -149,12 +140,20 @@ public class FragmentSignIn extends Fragment {
         protected void onPostExecute(Boolean bool) {
             super.onPostExecute(bool);
             if(bool){
-                Intent signup = new Intent(context, MainActivity.class);
-                Toast.makeText(context,"Login thành công",Toast.LENGTH_SHORT).show();
-                startActivity(signup);
+                if (callback != null) {
+                    callback.onSuccess();
+                }
             }else{
                 Toast.makeText(context,"Login thất bại",Toast.LENGTH_SHORT).show();
             }
         }
+    }
+    public interface OnLoginSuccess {
+        void onSuccess();
+    }
+
+    private OnLoginSuccess callback;
+    public void setOnLoginSuccessListener(OnLoginSuccess callback) {
+        this.callback = callback;
     }
 }

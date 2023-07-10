@@ -22,7 +22,6 @@ import android.widget.Toast;
 
 import com.example.flashcard.dao.AccountDao;
 import com.example.flashcard.model.Account;
-import com.example.flashcard.recycleView.AccountAdapter;
 
 import java.util.Calendar;
 import java.util.List;
@@ -33,7 +32,6 @@ public class FragmentSignUp extends Fragment {
 
     private ListView listView;
     private Button btnSignUp;
-    private AccountAdapter db;
     private AccountDao accountDao;
     private ArrayAdapter<Account> adapter;
     private Context context;
@@ -108,7 +106,7 @@ public class FragmentSignUp extends Fragment {
                         return;
                     }
                     else if(pass.getText().toString().trim().equals(repass.getText().toString())==false){
-                        Toast.makeText(this.getContext(), "Password and Re-Password not ", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this.getContext(), "Password and Re-Password are not the same", Toast.LENGTH_SHORT).show();
                     }
 
                     else if (!patternAccAndPass.matcher(password).find()) {
@@ -122,8 +120,6 @@ public class FragmentSignUp extends Fragment {
                     else {
                         if (InsertAccount(account)) {
                             Toast.makeText(this.getContext(), "Registered successfully", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(this.getContext(), LandingActivity.class);
-                            startActivity(intent);
                         } else {
                             Toast.makeText(this.getContext(), "Registered failed ", Toast.LENGTH_SHORT).show();
                         }

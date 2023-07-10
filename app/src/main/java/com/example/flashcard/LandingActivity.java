@@ -2,17 +2,20 @@ package com.example.flashcard;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.flashcard.dao.AccountDao;
 import com.example.flashcard.dao.AppDatabase;
 
 public class LandingActivity extends AppCompatActivity {
-    private Button btnsignup, btnsignin;
+    private Button btnsignup, btnsignin,btnForgotAccount;
     private FragmentSignIn fragmentSignIn;
     private  FragmentSignUp fragmentSignUp;
+    private FragmentForgotNamePassword fragmentForgotNamePassword;
     private AccountDao accountDao;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +28,7 @@ public class LandingActivity extends AppCompatActivity {
         }
         fragmentSignIn.setAccountDao(accountDao);
         fragmentSignIn.setContext(this);
+        fragmentSignIn.setOnLoginSuccessListener(this::OnLoginSuccess);
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragmentForSignInAndSignUp, fragmentSignIn)
@@ -34,6 +38,7 @@ public class LandingActivity extends AppCompatActivity {
     void BindingView(){
         btnsignin = findViewById(R.id.btnLogIn);
         btnsignup =  findViewById(R.id.btnSignUp);
+        btnForgotAccount=  findViewById(R.id.btnForgotAccount);
         AppDatabase db =AppDatabase.getInstance(this);
         accountDao=db.accountDao();
 
@@ -41,6 +46,18 @@ public class LandingActivity extends AppCompatActivity {
     void BindingAction(){
         btnsignin.setOnClickListener(this::ToLogin);
        btnsignup.setOnClickListener(this::ToSignUp);
+        btnForgotAccount.setOnClickListener(this::btnForgotClick);
+    }
+
+    private void btnForgotClick(View view) {
+        if (fragmentForgotNamePassword == null) {
+            fragmentForgotNamePassword = new FragmentForgotNamePassword();
+        }
+        fragmentForgotNamePassword.setAccountDao(accountDao);
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragmentForSignInAndSignUp, fragmentForgotNamePassword)
+                .commit();
     }
 
     private void ToLogin(View view) {
@@ -49,10 +66,19 @@ public class LandingActivity extends AppCompatActivity {
         }
         fragmentSignIn.setAccountDao(accountDao);
         fragmentSignIn.setContext(this);
+        fragmentSignIn.setOnLoginSuccessListener(this::OnLoginSuccess);
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragmentForSignInAndSignUp, fragmentSignIn)
                 .commit();
+    }
+
+    private void OnLoginSuccess() {
+        Intent intentToMainActivity = new Intent(this, MainActivity.class);
+        //Toast.makeText(this,"Login thành công",Toast.LENGTH_SHORT).show();
+
+        startActivity(intentToMainActivity);
+        finish();
     }
 
     private void ToSignUp(View view) {
