@@ -128,8 +128,6 @@ public class FragmentHoSo extends Fragment {
         pass = v.findViewById(R.id.edtPassEdit);
         repass = v.findViewById(R.id.edtRepassEdit);
         btnSignEdit = v.findViewById(R.id.btnSignEdit);
-
-
     }
     void BindAction(){
         btnSignEdit.setOnClickListener(this::onBtnSignEditClick);

@@ -24,7 +24,7 @@ public abstract class AppDatabase extends RoomDatabase {
     public static AppDatabase getInstance(Context context){
         if(appDatabase==null){
             appDatabase= Room.databaseBuilder(context,
-                    AppDatabase.class,"flashcardApp").allowMainThreadQueries().addCallback(rdc).build();
+                    AppDatabase.class,"flashcardApp").addCallback(rdc).build();
         }
         return appDatabase;
     }

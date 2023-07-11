@@ -1,5 +1,7 @@
 package com.example.flashcard.dao;
 
+import android.database.Cursor;
+
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -23,8 +25,11 @@ public interface AccountDao {
     List<Account> GetAccounts();
 
 
-    @Query("SELECT * FROM account WHERE accountName = :accountName OR accountEmail = :pass   ")
+    @Query("SELECT * FROM account WHERE accountName = :accountName AND accountPassword = :pass   ")
     Account GetAccount(String accountName, String pass);
+
+    @Query("Select * FROM account WHERE accountEmail=:email")
+    Cursor GetEmail(String email);
 
     @Query("SELECT * FROM account WHERE  accountEmail = :pass   ")
     Account GetAccountByMail(String pass);

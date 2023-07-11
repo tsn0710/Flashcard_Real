@@ -2,6 +2,7 @@ package com.example.flashcard;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -33,10 +34,8 @@ public class FragmentSignUp extends Fragment {
     private ListView listView;
     private Button btnSignUp;
     private AccountDao accountDao;
-    private ArrayAdapter<Account> adapter;
     private Context context;
 
-    Account signup ;
     public void setContext(Context context) {
         this.context = context;
     }
@@ -48,6 +47,7 @@ public class FragmentSignUp extends Fragment {
     public Context getContext() {
         return context;
     }
+    private String email="";
     void BindingView(View view){
 
         name = view.findViewById(R.id.edtName);
@@ -59,31 +59,14 @@ public class FragmentSignUp extends Fragment {
         listView =  view.findViewById(R.id.listAcount);
 
     }
-    void load(){
-        new AllAccount().execute(07102001);
-    }
     void BindAction(){
         btnSignUp.setOnClickListener(this::SignUp);
     }
 
-    public void getAccount(){
-        String username = name.getText().toString().trim();
-        String email = emaila.getText().toString().trim();
-        String dob = doba.getText().toString().trim();
-        String password = pass.getText().toString().trim();
-        Account account = new Account( username, password, email, dob);
-        new AAccount().execute(account.getAccountName(),account.getAccountEmail());
-    }
     private void SignUp(View view) {
-        getAccount();
-        Account a = new Account();
-       /* a.setAccountName(name.getText().toString());
-        a.setAccountEmail(email.getText().toString());
-        a.setAccountDOB(dob.getText().toString());
-        a.setAccountPassword(pass.getText().toString());*/
 
                 String username = name.getText().toString().trim();
-                String email = emaila.getText().toString().trim();
+                email = emaila.getText().toString().trim();
                 String dob = doba.getText().toString().trim();
                 String password = pass.getText().toString().trim();
         Account account = new Account( username, password, email, dob);
@@ -98,9 +81,6 @@ public class FragmentSignUp extends Fragment {
                 }
 
 
-                if (signup!=null) {
-                    Toast.makeText(this.getContext(), "Username or email was used", Toast.LENGTH_SHORT).show();
-                } else {
                     if (!patternAccAndPass.matcher(username).find()) {
                         Toast.makeText(this.getContext(), "Username not valid character length from 8-32", Toast.LENGTH_SHORT).show();
                         return;
@@ -118,46 +98,31 @@ public class FragmentSignUp extends Fragment {
                         return;
                     }
                     else {
-                        if (InsertAccount(account)) {
-                            Toast.makeText(this.getContext(), "Registered successfully", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(this.getContext(), "Registered failed ", Toast.LENGTH_SHORT).show();
-                        }
-
-                    }
-
+                        new InsertAccount().execute(account);
         };
 
-
-
-
-        /*String username = name.getText().toString();
-        String password = pass.getText().toString();*/
-        /*  try {*/
-            /*a = dao.GetAccount(username,password);
-            if(a == null) {*/
-
-        /*    }
-        }catch (Exception E){
-
-        }*/
-
-
-
     }
-    public  boolean InsertAccount(Account a){
-        try {
-
-            accountDao.Insert(a);
-
-            load();
-            return true;
-
-        }catch (Exception e){
-            Toast.makeText(context,e.getMessage().toString(), Toast.LENGTH_SHORT).show();
-            return false;
+    private class InsertAccount extends AsyncTask<Account, Integer, Boolean> {
+        @Override
+        protected Boolean doInBackground(Account... accounts) {
+            Cursor c = accountDao.GetEmail(email);
+            if(c.getCount()>0){
+                return false;
+            }else{
+                accountDao.Insert(accounts[0]);
+                return true;
+            }
         }
 
+        @Override
+        protected void onPostExecute(Boolean success) {
+            super.onPostExecute(success);
+            if(success){
+                Toast.makeText(context,"Success",Toast.LENGTH_SHORT).show();
+            }else{
+                Toast.makeText(context,"Email duplicate",Toast.LENGTH_SHORT).show();
+            }
+        }
     }
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -215,7 +180,7 @@ public class FragmentSignUp extends Fragment {
                     doba.setText(current);
                     doba.setSelection(sel < current.length() ? sel : current.length());
 
-
+//clone from https://stackoverflow.com/questions/16889502/how-to-mask-an-edittext-to-show-the-dd-mm-yyyy-date-format
                 }
             }
 
@@ -228,7 +193,6 @@ public class FragmentSignUp extends Fragment {
             public void afterTextChanged(Editable s) {
             }
         });
-        load();
 
     }
 
@@ -242,39 +206,6 @@ public class FragmentSignUp extends Fragment {
 
         View result =inflater.inflate(R.layout.fragment_sign_up, container, false);
 
-
-        load();
         return result;
     }
-    private class AllAccount extends AsyncTask<Integer, Integer, List<Account>> {
-        @Override
-        protected List<Account> doInBackground(Integer... integers) {
-            return accountDao.GetAccounts();
-
-        }
-
-        @Override
-        protected void onPostExecute(List<Account> accounts) {
-            super.onPostExecute(accounts);
-            adapter = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1,accounts);
-            listView.setAdapter(adapter);
-//            listView.getCount();
-        }
-    }
-
-    private class AAccount extends AsyncTask<String, Integer, Account> {
-        @Override
-        protected Account doInBackground(String... integers) {
-            return accountDao.GetAccount(integers[0],integers[1]);
-
-        }
-
-        @Override
-        protected void onPostExecute(Account accounts) {
-            super.onPostExecute(accounts);
-            signup = accounts;
-
-        }
-    }
-
 }

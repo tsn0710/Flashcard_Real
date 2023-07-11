@@ -59,8 +59,8 @@ public class FragmentSignIn extends Fragment {
 
     private void LogIn(View view) {
         List<String> infor= new ArrayList<>();
-        infor.add( name.getText().toString());
-        infor.add( pass.getText().toString());
+        infor.add( name.getText().toString().trim());
+        infor.add( pass.getText().toString().trim());
         //dung Asyntask
         new GetAccount().execute(infor);
     }
